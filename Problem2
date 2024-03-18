@@ -1,0 +1,93 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LoginForm extends JFrame implements ActionListener {
+
+  private JLabel titleLabel, phoneEmailLabel, passwordLabel;
+  private JTextField phoneEmailField;
+  private JPasswordField passwordField;
+  private JButton loginButton, registerButton, forgotPasswordButton;
+
+  public LoginForm() {
+    super("Login Form");
+    setSize(400, 300);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setLocationRelativeTo(null);
+
+    titleLabel = new JLabel("Welcome");
+    phoneEmailLabel = new JLabel("Phone Number/Email");
+    passwordLabel = new JLabel("Password");
+    phoneEmailField = new JTextField(20);
+    passwordField = new JPasswordField(20);
+    loginButton = new JButton("Login");
+    registerButton = new JButton("Register Now");
+    forgotPasswordButton = new JButton("Forgot Password");
+
+    titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+    phoneEmailLabel.setLabelFor(phoneEmailField);
+    passwordLabel.setLabelFor(passwordField);
+
+    JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+    panel.add(titleLabel);
+    panel.add(new JPanel());
+    panel.add(phoneEmailLabel);
+    panel.add(phoneEmailField);
+    panel.add(passwordLabel);
+    panel.add(passwordField);
+    panel.add(loginButton);
+    panel.add(registerButton);
+    panel.add(forgotPasswordButton);
+
+    add(panel, BorderLayout.CENTER);
+
+    loginButton.addActionListener(this);
+    registerButton.addActionListener(this);
+    forgotPasswordButton.addActionListener(this);
+
+    setVisible(true);
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == loginButton) {
+      String phoneEmail = phoneEmailField.getText();
+      String password = new String(passwordField.getPassword());
+
+      // Phone number/Email validation
+      if (isValidPhone(phoneEmail) || isValidEmail(phoneEmail)) {
+        // Login logic here
+        if (phoneEmail.equals("admin") && password.equals("admin")) {
+          JOptionPane.showMessageDialog(this, "Login successful!");
+          // Open new window or perform other actions after successful login
+        } else {
+          JOptionPane.showMessageDialog(this, "Invalid credentials!");
+        }
+      } else {
+        JOptionPane.showMessageDialog(this, "Invalid phone number or email format!");
+      }
+    } else if (e.getSource() == registerButton) {
+      // Open registration form here
+      // ...
+    } else if (e.getSource() == forgotPasswordButton) {
+      // Open forgot password form here
+      // ...
+    }
+  }
+
+  private boolean isValidPhone(String phone) {
+    // Implement phone number validation logic here
+    // You can use regular expressions or other techniques
+    return phone.matches("^[0-9]+$"); // This is a simple check for digits only
+  }
+
+  private boolean isValidEmail(String email) {
+    // Implement email validation logic here
+    // You can use regular expressions or other techniques
+    return email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+  }
+
+  public static void main(String[] args) {
+    new LoginForm();
+  }
+}
